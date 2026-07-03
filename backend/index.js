@@ -11,7 +11,6 @@ const dummyData = [
 
 
 
-
 const server = express();
 server.use(express.json()); //this is used to parse the json data from the request body
 server.use(morgan("dev")); //this is used to log the request and response details in the console
