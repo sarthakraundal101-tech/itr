@@ -1,213 +1,251 @@
+import numpy as np
 
+# Array Creation
+# Creating Arrays from Python Lists
 
-# ## 🐼 **What is Pandas?**
+# 1D array
+arr1d = np.array([1, 2, 3, 4, 5])
+print(arr1d)
 
-# # Pandas is a **powerful library for data analysis**. It provides:
+# 2D array (matrix)
+arr2d = np.array([[1, 2, 3], [4, 5, 6]])
+print(arr2d)
 
-# # * `DataFrame`: A 2D table-like structure (like a table in Excel).
-# # * `Series`: A 1D array-like structure (one column).
-# # * Tools for data cleaning, filtering, and analysis.
+# 3D array
+arr3d = np.array([[[1, 2], [3, 4]], [[5, 6], [7, 8]]])
+print(arr3d)
 
+# Special Array Creation Functions
+# Array of zeros
+zeros = np.zeros((3, 4))  # 3 rows, 4 columns
+print(zeros)
 
+# Array of ones
+ones = np.ones((2, 3, 4), dtype=np.int16)  # 2x3x4 array of 1's
+print(ones)
 
-# ## ⚡️ **1️⃣ Install and Import Pandas**
+# Empty array (contains garbage values)
+empty = np.empty((2, 3))
+print(empty)
 
-# # Install
-# # pip install pandas
+# Identity matrix
+identity = np.eye(3)  # 3x3 identity matrix
+print(identity)
 
-# # Import
-# # import pandas as pd
+# Array with a range of values
+range_arr = np.arange(10, 30, 5)  # from 10 to 30 (exclusive), step 5
+print(range_arr)
 
+# Array with evenly spaced numbers
+linspace_arr = np.linspace(0, 2, 9)  # 9 numbers from 0 to 2
+print(linspace_arr)
 
-# ## 🔥 **2️⃣ Creating Series and DataFrames**
+# Array Attributes
+arr = np.array([[1, 2, 3], [4, 5, 6]])
 
-# #### Series
+print(arr.ndim)    # Number of dimensions (2)
+print(arr.shape)   # Tuple of array dimensions (2, 3)
+print(arr.size)    # Total number of elements (6)
+print(arr.dtype)   # Data type of elements (int64)
+print(arr.itemsize) # Size in bytes of each element (8)
+print(arr.nbytes)  # Total bytes consumed by elements (48)
 
-import pandas as pd
+# Array Indexing and Slicing
+# Basic Indexing
+arr = np.array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
 
-# Creating a Series
-s = pd.Series([10, 20, 30, 40])
-print(s)
+print(arr[2])    # Get element at index 2 (2)
+print(arr[-1])   # Last element (9)
 
-# Creating a Series with custom index
-s = pd.Series([100, 200, 300], index=['a', 'b', 'c'])
-print(s)
+# For multidimensional arrays
+arr2d = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+print(arr2d[1, 2])  # Row 1, column 2 (6)
 
-#### DataFrame
+# Slicing
+arr = np.array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
 
-# Creating a DataFrame from a dictionary
-data = {
-    'Name': ['Alice', 'Bob', 'Charlie'],
-    'Age': [25, 30, 35],
-    'City': ['Delhi', 'Mumbai', 'Bangalore']
-}
-df = pd.DataFrame(data)
+print(arr[1:5])    # Elements from index 1 to 4 [1, 2, 3, 4]
+print(arr[::2])    # Every second element [0, 2, 4, 6, 8]
+print(arr[::-1])   # Reversed array [9, 8, ..., 0]
 
-print(df)
+# Multidimensional slicing
+arr2d = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+print(arr2d[:2, 1:])  # First two rows, columns from 1 onward
 
+# Boolean Indexing
+arr = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9])
 
-## 📋 **3️⃣ Viewing and Inspecting the Data**
+# Create boolean array
+filter = arr > 5
+print(filter)  # [False, False, False, False, False, True, True, True, True]
 
-# First 5 rows
-print(df.head())
+# Use boolean array to filter
+print(arr[filter])  # [6, 7, 8, 9]
 
-# Last 5 rows
-print(df.tail())
+# Shorter syntax
+print(arr[arr > 5])  # Same as above
 
-# Columns
-print(df.columns)
+# Array Operations
+# Arithmetic Operations
 
-# Info about data types
-print(df.info())
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
 
-# Statistical summary
-print(df.describe())
+print(a + b)   # [5, 7, 9]
+print(a - b)   # [-3, -3, -3]
+print(a * b)   # [4, 10, 18] (element-wise multiplication)
+print(a / b)   # [0.25, 0.4, 0.5]
+print(a ** 2)  # [1, 4, 9]
+print(np.sqrt(a))  # [1., 1.4142, 1.73205]
 
+# Matrix Operations
+a = np.array([[1, 2], [3, 4]])
+b = np.array([[5, 6], [7, 8]])
 
-## 👇 **4️⃣ Selecting and Indexing**
+# Matrix multiplication
+print(np.dot(a, b))
+# or
+print(a @ b)
 
-# Selecting a column
-print(df['Name'])
-print(df.Name)
+# Transpose
+print(a.T)
 
-# Selecting multiple columns
-print(df[['Name','Age']])
+# Inverse
+print(np.linalg.inv(a))
 
-# Selecting by position
-print(df.iloc[0])           # First row
-print(df.iloc[0, 1])        # First row, second column
-print(df.iloc[0:2, 1:3])    # First two rows, columns 1–2
+# Determinant
+print(np.linalg.det(a))
 
-# Selecting by label
-print(df.loc[0])            # First row
-print(df.loc[0, 'Name'])    # Name of first person
-print(df.loc[0:1, ['Name','City']]) 
+# Comparison Operations
+a = np.array([1, 2, 3])
+b = np.array([2, 2, 2])
 
+print(a == b)  # [False, True, False]
+print(a > b)   # [False, False, True]
+print(np.array_equal(a, b))  # False
 
-## 🛠️ **5️⃣ Adding and Modifying Columns**
+# Broadcasting
+# Broadcasting allows NumPy to perform operations on arrays of different shapes.
+a = np.array([1, 2, 3])
+b = 2
 
-# Add a new column
-df['Country'] = 'India'
-print(df)
+print(a * b)  # [2, 4, 6] - b is broadcast to array of same shape as a
 
-# Modify an existing column
-df['Age'] = df['Age'] + 1
-print(df)
+# More complex example
+a = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+b = np.array([1, 0, 1])
 
-# Drop a column
-df = df.drop(columns=['Country'])
+print(a + b)  # b is broadcast to each row of a
 
+# Array Manipulation
+# Changing Array Shape
 
-## 🗂️ **6️⃣ Filtering and Conditional Selection**
+arr = np.arange(6)
+print(arr.reshape(2, 3))  # Reshape to 2x3 array
 
-# Get people older than 30
-print(df[df['Age'] > 30])
+# Flatten array
+arr2d = np.array([[1, 2, 3], [4, 5, 6]])
+print(arr2d.flatten())  # [1, 2, 3, 4, 5, 6]
 
-# Multiple conditions
-print(df[(df['Age'] > 25) & (df['City'] == 'Mumbai')])
+# Stacking Arrays
 
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
 
-## 🔥 **7️⃣ Sorting and Grouping**
+print(np.vstack((a, b)))  # Vertical stack
+print(np.hstack((a, b)))  # Horizontal stack
+print(np.column_stack((a, b)))  # Column stack
 
-# Sort by Age
-print(df.sort_values(by='Age'))
+# Splitting Arrays
+arr = np.arange(9).reshape(3, 3)
+print(np.hsplit(arr, 3))  # Split into 3 arrays along horizontal axis
+print(np.vsplit(arr, 3))  # Split into 3 arrays along vertical axis
 
-# Group by City
-print(df.groupby('City')['Age'].mean())
+# Mathematical Functions
+arr = np.array([1, 2, 3, 4])
 
-## 🐞 **8️⃣ Handling Missing Data**
+print(np.sum(arr))       # Sum of all elements (10)
+print(np.prod(arr))      # Product of all elements (24)
+print(np.mean(arr))      # Mean (2.5)
+print(np.std(arr))       # Standard deviation
+print(np.var(arr))       # Variance
+print(np.min(arr))       # Minimum value (1)
+print(np.max(arr))       # Maximum value (4)
+print(np.argmin(arr))    # Index of minimum value (0)
+print(np.argmax(arr))    # Index of maximum value (3)
+print(np.cumsum(arr))    # Cumulative sum [1, 3, 6, 10]
+print(np.cumprod(arr))   # Cumulative product [1, 2, 6, 24]
 
-data = {'Name': ['Alice','Bob','Charlie'], 'Age': [25, None, 35]}
-df = pd.DataFrame(data)
+# Linear Algebra
+a = np.array([[1, 2], [3, 4]])
 
-# Check for null values
-print(df.isnull())
+# Matrix rank
+print(np.linalg.matrix_rank(a))
 
-# Fill null values
-df['Age'] = df['Age'].fillna(df['Age'].mean())
+# Eigenvalues and eigenvectors
+print(np.linalg.eig(a))
 
-# Drop rows with null
-df = df.dropna()
+# Solve linear equations
+# 3x + y = 9
+# x + 2y = 8
+A = np.array([[3, 1], [1, 2]])
+b = np.array([9, 8])
+print(np.linalg.solve(A, b))  # Solution [2., 3.]
 
+# Singular Value Decomposition
+print(np.linalg.svd(a))
 
-## 💾 **9️⃣ Reading and Writing Files**
+# Statistics
+arr = np.array([[1, 2, 3], [4, 5, 6]])
 
-# Read a CSV
-# df = pd.read_csv('filename.csv')
+print(np.median(arr))        # Median of all elements
+print(np.percentile(arr, 50)) # 50th percentile (same as median)
+print(np.corrcoef(arr))      # Correlation coefficient matrix
+print(np.histogram(arr))     # Histogram
 
-# # Read an Excel file
-# df = pd.read_excel('filename.xlsx')
+# Random Module
+# NumPy's random module allows you to generate random numbers:
+# Random float between 0 and 1
+print(np.random.random())
 
-# # Export to CSV
-# df.to_csv('new_file.csv', index=False)
+# Random integers between low and high
+print(np.random.randint(1, 10, size=5))  # 5 random integers between 1 and 9
 
-# # Export to Excel
-# df.to_excel('new_file.xlsx', index=False)
+# Random choice from array
+print(np.random.choice(['a', 'b', 'c'], size=10))
 
+# Standard normal distribution
+print(np.random.randn(2, 3))  # 2x3 array of standard normal values
 
-## ⚡️ **10️⃣ Advanced Techniques**
+# Shuffle array
+arr = np.arange(10)
+np.random.shuffle(arr)
+print(arr)
 
-#### Applying a function
+# File I/O
+# Saving and Loading Arrays
 
-# Apply a custom function
-def add_five(x): return x + 5
-df['Age'] = df['Age'].apply(add_five)
+arr = np.arange(10)
 
+# Save to binary file
+np.save('my_array.npy', arr)
 
-#### Merging and Joining
+# Load from binary file
+loaded = np.load('my_array.npy')
+print(loaded)
 
-df1 = pd.DataFrame({'ID': [1,2], 'Name': ['Alice','Bob']})
-df2 = pd.DataFrame({'ID': [1,2], 'City': ['Delhi','Mumbai']})
-merged = pd.merge(df1, df2, on='ID')
-print(merged)
+# Save to text file
+np.savetxt('my_array.txt', arr)
 
-# #### Pivot Table
+# Load from text file
+loaded_txt = np.loadtxt('my_array.txt')
+print(loaded_txt)
 
-# table = df.pivot_table(index='City', values='Age', aggfunc='mean')
-# print(table)
+# Working with CSV Files
+# Save array to CSV
+arr = np.array([[1, 2, 3], [4, 5, 6]])
+np.savetxt('my_array.csv', arr, delimiter=',')
 
-import pandas as pd
-
-# Creating a Series of temperatures
-temperatures = pd.Series([22.5, 25.0, 27.3, 30.1, 28.4], name="Temp", index=False)
-
-# Display the Series
-print(temperatures)
-
-
-import pandas as pd
-
-# Creating the DataFrame
-data = {
-    "Product": ["Laptop", "Smartphone", "Headphones", "Keyboard", "Mouse"],
-    "Price": [1200, 800, 150, 60, 25],
-    "Stock": [5, 12, 30, 25, 100]
-}
-
-df = pd.DataFrame(data)
-
-# Display the DataFrame
-print(df.to_string(index=False))
-
-
-
-import pandas as pd
-
-# Sample data
-data = {
-    "Name": ["Alice", "Bob", "Charlie", "Diana", "Ethan"],
-    "Age": [25, 30, 35, 28, 40],
-    "City": ["New York", "Paris", "London", "Tokyo", "Sydney"]
-}
-df = pd.DataFrame(data)
-
-# 1️⃣ Select only the Name column
-print("Names:\n", df["Name"])
-
-# 2️⃣ Select the first 3 rows using .iloc
-print("\nFirst 3 rows:\n", df.iloc[:3])
-
-# 3️⃣ Select people older than 30
-print("\nPeople older than 30:\n", df[df["Age"] > 30])
-
-
+# Load CSV into array
+loaded_csv = np.loadtxt('my_array.csv', delimiter=',')
+print(loaded_csv)
